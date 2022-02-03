@@ -12,6 +12,7 @@ namespace Test.Interfaces.Repositories
         Task<Entities.Activity> Cancel(Entities.Activity entity);
 
         Task<IEnumerable<Entities.Activity>> GetByFilters(Entities.Parameters parameters);
+        Task<Entities.Activity> Terminate(Entities.Activity entity);
 
 
     }

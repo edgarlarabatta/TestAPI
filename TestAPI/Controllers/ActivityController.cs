@@ -124,6 +124,34 @@ namespace TestAPI.Controllers
 
 
         /// <summary>
+        /// EndPoint que permite finalizar una actividad
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("terminate")]
+        public async Task<ActionResult<Test.Entities.Activity>> Terminate(Test.Entities.Activity entity)
+        {
+            Test.Entities.Activity response = null;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    response = await this.service.Terminate(entity);
+                }
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { status = 500, errors = ex.Message });
+            }
+        }
+
+
+
+
+        /// <summary>
         /// EndPoint que retorna el listado de los registros existentes
         /// </summary>
         /// <returns></returns>

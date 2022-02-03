@@ -176,8 +176,11 @@ namespace Test.DataAccess
                                 a.activity_title,
                                 a.activity_created_at,
                                 a.activity_updated_at,
-                                a.activity_status
-                            FROM activity a                                
+                                a.activity_status,
+                                p.property_title,
+	                            p.property_address	 
+                            FROM activity a     
+                            INNER JOIN property p on p.property_id =a.property_id
                             WHERE a.activity_id={id};";
             Activity result = null;
             using (IDbConnection db = _connection.GetConnection)
@@ -271,5 +274,35 @@ namespace Test.DataAccess
             }
 
         }
+
+
+        public async Task<Activity> Terminate(Entities.Activity entity)
+        {
+            using (IDbConnection db = _connection.GetConnection)
+            {
+                string query = @$"UPDATE activity set activity_status ='Done', activity_updated_at =now() 
+                                  WHERE activity_id ={entity.Activity_Id}";
+
+                if (db.State == ConnectionState.Closed)
+                    db.Open();
+
+                using (var tran = db.BeginTransaction())
+                {
+                    try
+                    {
+                        var result = await db.ExecuteAsync(query, null, commandType: CommandType.Text, transaction: tran);
+                        tran.Commit();
+                        return new Activity { Activity_Id = entity.Activity_Id };
+                    }
+                    catch (Npgsql.NpgsqlException ex)
+                    {
+                        tran.Rollback();
+                        throw new Exception(ex.Message);
+                    }
+                }
+            }
+
+        }
+
     }
 }

@@ -65,7 +65,7 @@ namespace Test.BusinessLogic
             return _newActivity;
         }
 
-        public  async Task<Activity> Cancel(Entities.Activity entity)
+        public async Task<Activity> Cancel(Entities.Activity entity)
         {
             //verificamos que la activida exista
             var activity = await base.GetById(entity.Activity_Id);
@@ -118,6 +118,26 @@ namespace Test.BusinessLogic
             activity = await base.GetById(entity.Activity_Id);
 
             return activity;
+
+        }
+
+        public async Task<Activity> Terminate(Activity entity)
+        {
+            //verificamos que la activida exista
+            var activity = await base.GetById(entity.Activity_Id);
+            if (activity == null)
+            {
+                throw new Exception("The activity does not exist");
+            }
+
+
+            if (activity.Activity_Status.Equals("Cancelled"))
+            {
+                throw new Exception("It is not possible to terminate an activity previously canceled");
+            }
+
+            await this.activityRepository.Terminate(entity);
+            return await base.GetById(entity.Activity_Id);
 
         }
     }
