@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>c414c4ad-a212-499f-9914-7ae2b11d353a</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Test.Business\Test.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Test.Data\Test.DataAccess.csproj" />
+    <ProjectReference Include="..\Test.Entities\Test.Entities.csproj" />
+    <ProjectReference Include="..\Test.Interfaces\Test.Interfaces.csproj" />
+  </ItemGroup>
+
+
+</Project>
